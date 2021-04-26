@@ -89,24 +89,24 @@ export let View = class {
 
         // Update Question
         let question = document.querySelector("p.question");
-        question.innerHTML = this.model.gamestate.clues[col][row].question;
+        question.innerHTML = this.model.gamestate.clues[col][row - 1].question;
 
         // Update Answer, but though it is hidden at first
         let answer = document.querySelector("span.answer");
-        answer.innerHTML = this.model.gamestate.clues[col][row].answer;
+        answer.innerHTML = this.model.gamestate.clues[col][row - 1].answer;
 
         // Create and append new/unique Reveal button
         let reveal_button = document.createElement('button');
         reveal_button.classList.add("reveal");
         reveal_button.innerHTML = "Reveal Answer";
         reveal_button.addEventListener("click", () => {
-           this.revealAnswerClickHandler(row, col);
+           this.revealAnswerClickHandler();
         });
 
         modal.append(reveal_button);
     };
 
-    revealAnswerClickHandler(row, col) {
+    revealAnswerClickHandler() {
         // Put answer text in view
         let answer = document.querySelector("p.answer");
         answer.style.display = "block";
