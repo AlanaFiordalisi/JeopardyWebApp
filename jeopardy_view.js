@@ -9,6 +9,19 @@ export let View = class {
         let title = document.createElement('h1');
         title.innerHTML = "Jeopardy!";
         this.div.append(title);
+
+        let color_switch = document.createElement('button');
+        color_switch.classList.add("color_switch");
+        color_switch.innerHTML = "Dark";
+        color_switch.addEventListener("click", (e) => {
+            document.querySelector("body").classList.toggle("dark_theme");
+            if (e.target.innerHTML == "Dark") {
+                e.target.innerHTML = "Light";
+            } else {
+                e.target.innerHTML = "Dark";
+            }
+        });
+        this.div.append(color_switch);
         
         // Game Board
         let board_div = document.createElement('div');

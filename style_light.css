@@ -1,14 +1,36 @@
+:root {
+    --background: #8ee4af;
+    --tile: #379683;
+    --headers: #05386b;
+    --text: #edf5e1;
+    --modal: rgb(32, 92, 148);
+    --modal-text: rgb(224, 224, 224);
+    --button-text: #666666;
+    --button-background: rgb(224, 224, 224);
+    --button-correct: #379683;
+}
+
+.dark_theme {
+    --headers: #5cdb95;
+    --tile: #379683;
+    --background: #05386b;
+    --text: #edf5e1;
+    --modal: #5cdb95;
+    --modal-text: #379683;
+    --button-text: #666666;
+    --button-background: rgb(224, 224, 224);
+    --button-correct: #379683;
+}
+
 h1 {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
-    color: #05386b;
+    color: var(--headers);
 }
 
 body {
-    background-color: #8ee4af;
+    background-color: var(--background);
 }
-
-
 
 /*
 * Board.
@@ -33,24 +55,23 @@ table {
 td.tile {
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #379683;
+    background-color: var(--tile);
     border-radius: 5px;
     padding: 2px;
 }
 
 td.category_tile {
-    color:#05386b;
+    color:var(--headers);
     font-weight: bold;
 }
 
 td.question_tile {
-    color: #edf5e1;
+    color: var(--text);
 }
 
 /*
 * Modal
 */
-
 .modal {
     display: none; /* Hidden by default */
     flex-direction: column;
@@ -61,20 +82,17 @@ td.question_tile {
     width: 50pc; /* Full width */
     height: 35pc; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(32, 92, 148); /* Fallback color */
+    background-color: var(--modal);
     border-radius: 15px;
 }
 
 .modal_content {
-    /* background-color: #fefefe; */
-    color: rgb(224, 224, 224);
+    color: var(--modal-text);
     font-size: xx-large;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
-    /* margin: 15% auto; 15% from the top and centered */
     padding: 20px;
-    /* border: 1px solid #888; */
-    width: 90%; /* Could be more or less, depending on screen size */
+    width: 90%; 
 }
 
 div.correct_buttons {
@@ -95,23 +113,28 @@ button {
     font-size: large;
     display: inline-block;
     padding: 0.3em 1em;
-    color: #666666;
-    background-color: rgb(224, 224, 224);
+    color: var(--button-text);
+    background-color: var(--button-background);
     border: none;
     border-radius: 3px;
     transition: .4s;
 }
 
+button.color_switch {
+    width: 100px;
+    height: 30px;
+}
+
 button.correct {
-    color: #379683;
+    color: var(--button-correct);
 }
 
 button.correct:hover {
-    background-color: #379683;
-    color: rgb(224, 224, 224);
+    background-color: var(--button-correct);
+    color: var(--button-background);
 }
 
 button.incorrect:hover {
-    background-color: #666666;
-    color: rgb(224, 224, 224)
+    background-color: var(--button-text);
+    color: var(--button-background);
 }
