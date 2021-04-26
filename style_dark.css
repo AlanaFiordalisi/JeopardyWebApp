@@ -1,0 +1,44 @@
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: #05386b;
+}
+
+body {
+    background-color: #8ee4af;
+}
+
+/*
+* Board.
+*/
+#board_div {
+    position: relative;
+}
+
+#game_board {
+    width: 50pc;
+    height: 35pc;
+}
+
+table {
+    margin: auto;
+}
+
+td.tile {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    /* background-color: rgb(0, 77, 177); */
+    background-color: #379683;
+    border-radius: 5px;
+}
+
+td.category_tile {
+    color:#05386b;
+    font-weight: bold;
+}
+
+td.question_tile {
+    color: #edf5e1;
+}
+
+

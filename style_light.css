@@ -1,0 +1,117 @@
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: #05386b;
+}
+
+body {
+    background-color: #8ee4af;
+}
+
+
+
+/*
+* Board.
+*/
+#board_div {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#game_board {
+    width: 50pc;
+    height: 35pc;
+}
+
+table {
+    margin: auto;
+    table-layout: fixed;
+}
+
+td.tile {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #379683;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+td.category_tile {
+    color:#05386b;
+    font-weight: bold;
+}
+
+td.question_tile {
+    color: #edf5e1;
+}
+
+/*
+* Modal
+*/
+
+.modal {
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    width: 50pc; /* Full width */
+    height: 35pc; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(32, 92, 148); /* Fallback color */
+    border-radius: 15px;
+}
+
+.modal_content {
+    /* background-color: #fefefe; */
+    color: rgb(224, 224, 224);
+    font-size: xx-large;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    /* margin: 15% auto; 15% from the top and centered */
+    padding: 20px;
+    /* border: 1px solid #888; */
+    width: 90%; /* Could be more or less, depending on screen size */
+}
+
+div.correct_buttons {
+    display: none;
+    justify-content:space-around;
+}
+
+p.answer {
+    display: none;
+}
+
+/*
+* Button styling. Design inspired by https://saruwakakun.com/en/css3-buttons#section2.
+*/ 
+button {
+    width: 200px;
+    height: 50px;
+    font-size: large;
+    display: inline-block;
+    padding: 0.3em 1em;
+    color: #666666;
+    background-color: rgb(224, 224, 224);
+    border: none;
+    border-radius: 3px;
+    transition: .4s;
+}
+
+button.correct {
+    color: #379683;
+}
+
+button.correct:hover {
+    background-color: #379683;
+    color: rgb(224, 224, 224);
+}
+
+button.incorrect:hover {
+    background-color: #666666;
+    color: rgb(224, 224, 224)
+}

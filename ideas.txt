@@ -1,0 +1,33 @@
+Jeopardy API: http://jservice.io/
+
+Key Decisions:
+* Random categories
+* Disregard actual question values
+    - The options vary so much over the course of decades
+    - Difficult to know if you are guaranteed to get a set of questions with exaclty the right values
+
+Getting Questions:
+1. RNG from 0 to 18300 (which will be the offset param for the categories request)
+2. Make /categories request with new offset
+3. For each category, make request to /category
+    a. Within that category, if "clues_count" > 5
+        1. RNG from 0 to "clues_count" - 5 to select offset
+        2. return "clues"[offset:offset + 5]
+    b. if "clues_count" == 5
+        1. return "clues"
+    c. if "clues_count" < 5
+        1. Make /categories request with new offset & retry
+
+    ** Check that every returned clue has a question and an answer?
+
+- /categories
+    - count: 6
+    - offset: 0 to 18300
+
+- /category
+    - id: each id from previous request
+
+
+Light/Dark Modes:
+https://css-tricks.com/a-complete-guide-to-dark-mode-on-the-web/#toggling-themes
+
