@@ -5,10 +5,9 @@ export let View = class {
     }
 
     async initializeView() {
-        // Page title
+        // Header with page title and color theme switch button
         let title = document.createElement('h1');
         title.innerHTML = "Jeopardy!";
-        this.div.append(title);
 
         let color_switch = document.createElement('button');
         color_switch.classList.add("color_switch");
@@ -21,8 +20,12 @@ export let View = class {
                 e.target.innerHTML = "Dark";
             }
         });
-        this.div.append(color_switch);
         
+        let header = document.createElement('div');
+        header.id = "header_div";
+        header.append(title, color_switch);
+        this.div.append(header);
+
         // Game Board
         let board_div = document.createElement('div');
         board_div.id = "board_div";

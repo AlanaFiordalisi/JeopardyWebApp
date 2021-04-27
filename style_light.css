@@ -32,6 +32,11 @@ body {
     background-color: var(--background);
 }
 
+#header_div {
+    display: flex;
+    justify-content: center;
+}
+
 /*
 * Board.
 */
@@ -123,6 +128,9 @@ button {
 button.color_switch {
     width: 100px;
     height: 30px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 button.correct {
