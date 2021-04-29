@@ -67,6 +67,27 @@ export let Model = class {
     }
 
     /*
+    * Wikipedia API calls.
+    */
+
+    async getExtract(term) {
+        console.log("get extract");
+        const result = await axios({
+            method: 'get',
+            url: 'https://en.wikipedia.org/w/api.php',
+            params: {
+                action: 'query',
+                origin: '*',
+                format: 'json',
+                prop: 'extracts',
+                exsentences: 3,
+                titles: term,
+            }
+        })
+        return result;
+    }
+
+    /*
     * Helpers.
     */
     rng(min, max) {

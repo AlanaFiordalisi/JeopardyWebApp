@@ -98,19 +98,57 @@ td.question_tile {
     text-align: center;
     padding: 20px;
     width: 90%; 
+    overflow: scroll;
 }
 
-div.correct_buttons {
-    display: none;
-    justify-content:space-around;
-}
+/* 
+* Modal text styling.
+*/
 
 p.answer {
     display: none;
 }
 
+p.large {
+    margin: 0;
+    padding: 10px 0px;
+}
+
+.answer_description {
+    display: none;
+    font-size: medium;
+    height: 100px;
+    padding: 10px;
+    overflow: scroll;
+    border-radius: 10px;
+    background-color: var(--background);
+    color: var(--headers);
+}
+
 /*
-* Button styling. Design inspired by https://saruwakakun.com/en/css3-buttons#section2.
+* Button div styling.
+*/
+
+.post_reveal_buttons_div {
+    display: none;
+}
+
+.buttons {
+    padding: 10px;
+}
+
+.answer_buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.wiki_button {
+    display: none;
+    justify-content: center;
+}
+
+/*
+* Button styling. Shape & hover inspired by https://saruwakakun.com/en/css3-buttons#section2.
 */ 
 button {
     width: 200px;
