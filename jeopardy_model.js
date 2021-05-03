@@ -9,6 +9,31 @@ export let Model = class {
         }
     }
 
+    async setUpUser(user) {
+        this.userAuth = user;
+        const dbRef = firebase.database().ref();
+        // Look for user id in database
+        dbRef.child("users").child(user.uid).get().then((snapshot) => {
+            if (snapshot.exists()) {        // If user exists, get their preferred theme
+                console.log(snapshot.val());
+                this.userDB = snapshot;
+                this.preferred_theme = snapshot.preferred_theme;
+            } else {                        // If user does not exist, add them to DB
+                console.log("New user – adding to database.");
+                this.userDB = {
+                    name: user.displayName,
+                    preferred_theme: "light",
+                    max_score: 0,
+                    num_games_played: 0,
+                };
+                dbRef.child("users").child(user.uid).set(this.userDB);
+                this.preferred_theme = "light";
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+    };
+
     async setUpBoard(offset) {
         console.log("setUpBoard");
         let result = await this.categories(offset);

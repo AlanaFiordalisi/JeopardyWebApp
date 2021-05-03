@@ -1,8 +1,33 @@
+import { fb } from './firebase_init.js';
+
 export let View = class {
     constructor(model) {
         this.model = model;
         this.div = document.createElement('div');
     }
+
+    async loadingView() {
+        // Put the loading message on the screen
+        let loading = document.createElement('div');
+        loading.id = "loading";
+        loading.innerHTML = "Logging you in...";
+        this.div.append(loading);
+
+        // Wait until auth state is changed, when callback will 
+        // remove loading message and populate the board
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                console.log("Signed in!")
+                this.model.user = user;
+                this.model.setUpUser(user);
+                loading.remove();
+                this.initializeView();
+            }
+            else {
+                console.log("Signed out.")
+            }
+        });
+    };
 
     async initializeView() {
         // Header with page title and color theme switch button

@@ -38,6 +38,15 @@ body {
 }
 
 /*
+* Loading page.
+*/
+#loading {
+    display: flex;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/*
 * Board.
 */
 #board_div {

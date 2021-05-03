@@ -3,6 +3,7 @@ export let Controller = class {
         this.model = model;
         this.view = view;
 
-        this.view.initializeView();
+        this.view.loadingView();
+        // this.view.initializeView();
     }
 }
