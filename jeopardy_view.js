@@ -167,6 +167,10 @@ export let View = class {
         // (will only include Correct/Incorrect initially) 
         let buttons_div = document.querySelector(".post_reveal_buttons_div");
         buttons_div.style.display = "block";
+
+        // Ensure Wiki button has proper information set for it
+        let wiki_button = document.querySelector("#wiki_button");
+        this.resetWikiButton(wiki_button);
     };
 
     buildPostRevealButtons() {
@@ -192,19 +196,10 @@ export let View = class {
 
         // Create the Reveal A Short Description button and append it to its own div
         let wiki_button = document.createElement('button');
-        wiki_button.innerHTML = "Tell me about this answer!";
-        wiki_button.value = "REVEAL";
+        wiki_button.id = "wiki_button";
+        this.resetWikiButton(wiki_button);
         wiki_button.addEventListener("click", (e) => {
-            let answer_description = document.querySelector(".answer_description");
-            if (e.target.value == "REVEAL") {
-                e.target.value = "HIDE";
-                e.target.innerHTML = "Hide description";
-                answer_description.style.display = "flex";
-            } else {
-                e.target.value = "REVEAL";
-                e.target.innerHTML = "Tell me about this answer!";
-                answer_description.style.display = "none";
-            }
+            this.wikiClickHandler(e);
         });
 
         let wiki_button_div = document.createElement('div');
@@ -217,6 +212,24 @@ export let View = class {
         buttons_div.append(answer_buttons_div, wiki_button_div);
 
         return buttons_div;
+    };
+
+    resetWikiButton(button) {
+        button.innerHTML = "Tell me about this answer!";
+        button.value = "REVEAL";
+    };
+
+    wikiClickHandler(e) {
+        let answer_description = document.querySelector(".answer_description");
+        if (e.target.value == "REVEAL") {
+            e.target.value = "HIDE";
+            e.target.innerHTML = "Hide description";
+            answer_description.style.display = "flex";
+        } else {
+            e.target.value = "REVEAL";
+            e.target.innerHTML = "Tell me about this answer!";
+            answer_description.style.display = "none";
+        }
     };
 
     buildModal() {
