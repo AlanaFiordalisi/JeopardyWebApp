@@ -1,23 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>This... Is... Jeopardy!</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!-- Include links to CSS stylesheets below -->
-        <link rel="stylesheet" href="style.css">
-    </head>
+    <title>Login</title>
 
-    <body>
-        <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-auth.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-database.js"></script>
-        <!-- Include links to JavaScript files below -->
-        <script src="node_modules/axios/dist/axios.js"></script>
-        <script type="module" src="jeopardy_view.js"></script>
-        <script type="module" src="jeopardy_model.js"></script>
-        <script type="module" src="jeopardy_script.js"></script>
-    </body>
+    <!-- Include links to CSS stylesheets below -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Firebase Auth UI CDN -->
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
+
+</head>
+
+<body>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
+
+    <!-- Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-database.js"></script>
+
+    <script type="module" src="login_script.js"></script>
+
+    <!-- The surrounding HTML is left untouched by FirebaseUI.
+     Your app may use that space for branding, controls and other customizations.-->
+    <h1>COMP 426 Jeopardy!</h1>
+    <div id="firebaseui-auth-container"></div>
+    <div id="loader">Loading...</div>
+
+    <!-- Include links to JavaScript files below -->
+</body>
+
 </html>
