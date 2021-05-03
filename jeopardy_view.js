@@ -120,15 +120,20 @@ export let View = class {
         let answer = document.querySelector("span.answer");
         answer.innerHTML = this.model.gamestate.clues[col][row - 1].answer;
 
-        // Create and append new/unique Reveal button
-        let reveal_button = document.createElement('button');
-        reveal_button.classList.add("reveal");
-        reveal_button.innerHTML = "Reveal Answer";
-        reveal_button.addEventListener("click", () => {
-           this.revealAnswerClickHandler();
-        });
-
-        modal.append(reveal_button);
+        let tile = document.querySelector(`#tile${row}_${col}`);
+        if (tile.classList.contains("used")) {
+            answer.parentNode.style.display = "block";
+            let close_button = document.querySelector("#close_button_div");
+            close_button.style.display = "flex";
+        } else { // Create and append new, unique Reveal button
+            let reveal_button = document.createElement('button');
+            reveal_button.classList.add("reveal");
+            reveal_button.innerHTML = "Reveal Answer";
+            reveal_button.addEventListener("click", () => {
+                this.revealAnswerClickHandler();
+            });
+            modal.append(reveal_button);
+        }
 
         // Query Wikipedia for information on the answer
         // If valid information exists, append it to answer description on modal, reveal Wiki button
@@ -144,6 +149,9 @@ export let View = class {
                 wiki_button_div.style.display = "flex";
             }
         }
+
+        // Mark tile as used
+        tile.classList.add("used");
     };
 
     revealAnswerClickHandler() {
@@ -235,8 +243,17 @@ export let View = class {
         let answer_description = document.createElement('div');
         answer_description.classList.add("answer_description");
 
+        let close_button = document.createElement('button');
+        close_button.id = "close_button";
+        close_button.innerHTML = "Close";
+        close_button.addEventListener("click", this.removeModal);
+        
+        let close_button_div = document.createElement('div');
+        close_button_div.id = "close_button_div";
+        close_button_div.append(close_button);
+
         // Append
-        modal_content.append(category, question, hr, answer, answer_description);
+        modal_content.append(category, question, hr, answer, answer_description, close_button_div);
         let buttons_div = this.buildPostRevealButtons(); // Must append answer description before building/appending buttons
         modal_content.append(buttons_div);
         modal.append(modal_content);
@@ -250,6 +267,7 @@ export let View = class {
         document.querySelector(".answer_description").style.display = "none";
         document.querySelector(".answer_description").innerHTML = "";
         document.querySelector(".wiki_button").style.display = "none";
+        document.querySelector("#close_button_div").style.display = "none";
 
         // Remove Modal from view
         document.querySelector(".modal").style.display = "none";
