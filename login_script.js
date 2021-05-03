@@ -29,7 +29,7 @@ window.addEventListener("load", async () => {
             }
         },
         signInFlow: 'popup',
-        signInSuccessUrl: 'index.html',
+        signInSuccessUrl: 'jeopardy.html',
         signInOptions: [
             firebase.auth.GoogleAuthProvider.PROVIDER_ID,
             firebase.auth.EmailAuthProvider.PROVIDER_ID,
