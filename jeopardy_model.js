@@ -15,7 +15,7 @@ export let Model = class {
         // Look for user id in database
         dbRef.child("users").child(user.uid).get().then((snapshot) => {
             if (snapshot.exists()) {        // If user exists, get their preferred theme
-                console.log(snapshot.val());
+                console.log("Existing user.")
                 this.userDB = snapshot;
                 this.preferred_theme = snapshot.preferred_theme;
             } else {                        // If user does not exist, add them to DB
@@ -35,7 +35,6 @@ export let Model = class {
     };
 
     async setUpBoard(offset) {
-        console.log("setUpBoard");
         let result = await this.categories(offset);
 
         for (let i = 0; i < result.data.length; i++) {
@@ -49,7 +48,6 @@ export let Model = class {
 
     async getClues(category_id) {
         let result = await this.category(category_id);
-        console.log(result);
 
         if (result.data.clues_count > 5) {
             let offset = this.rng(0, result.data.clues_count - 5);
@@ -67,7 +65,6 @@ export let Model = class {
     */
 
     async categories(offset) {
-        console.log("categories");
         const result = await axios({
             method: 'get',
             url: 'https://jservice.io/api/categories',
@@ -80,7 +77,6 @@ export let Model = class {
     };
 
     async category(category_id) {
-        console.log("category");
         const result = await axios ({
             method: 'get',
             url: 'https://jservice.io/api/category',
@@ -96,7 +92,6 @@ export let Model = class {
     */
 
     async getExtract(term) {
-        console.log("get extract");
         const result = await axios({
             method: 'get',
             url: 'https://en.wikipedia.org/w/api.php',

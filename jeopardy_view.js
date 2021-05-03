@@ -67,10 +67,7 @@ export let View = class {
     async buildBoard(qvalues) {
         // Get 6 categories based on random offset
         let offset = this.model.rng(0, 18300);
-        console.log(offset);
-
         await this.model.setUpBoard(offset);
-        console.log(this.model.gamestate);
 
         // Build board
         let board = document.createElement('table');
