@@ -30,31 +30,19 @@ export let View = class {
     };
 
     async initializeView() {
-        // Header with page title and color theme switch button
-        let title = document.createElement('h1');
-        title.innerHTML = "Jeopardy!";
-
-        // Set up theme toggle and initialize with proper value based on user preference
-        let color_switch = document.createElement('button');
-        color_switch.classList.add("color_switch");
+        // Initialize theme toggle proper value based on user preference
+        let color_switch = document.querySelector("#color_switch");
         this.setColorTheme(color_switch);
         color_switch.addEventListener("click", async (e) => {
             await this.colorSwitchClickHandler(e);
         });
 
-        let header = document.createElement('div');
-        header.id = "header_div";
-        header.append(title, color_switch);
-        this.div.append(header);
-
         // Game Board
-        let board_div = document.createElement('div');
-        board_div.id = "board_div";
-
         let board = await this.buildBoard(this.model.qvalues);
+        document.querySelector("#board_div").append(board);
 
-        board_div.append(board);
-        this.div.append(board_div);
+        // Score
+        document.querySelector("#score").innerHTML = this.model.gamestate.score;
 
         // Put the Modal there but in secret!
         this.buildModal();
