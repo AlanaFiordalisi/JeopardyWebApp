@@ -13,11 +13,10 @@ export let Model = class {
         this.userAuth = user;
         const dbRef = firebase.database().ref();
         // Look for user id in database
-        dbRef.child("users").child(user.uid).get().then((snapshot) => {
+        await dbRef.child("users").child(user.uid).get().then((snapshot) => {
             if (snapshot.exists()) {        // If user exists, get their preferred theme
                 console.log("Existing user.")
-                this.userDB = snapshot;
-                this.preferred_theme = snapshot.preferred_theme;
+                this.userDB = snapshot.val();
             } else {                        // If user does not exist, add them to DB
                 console.log("New user – adding to database.");
                 this.userDB = {
@@ -58,6 +57,11 @@ export let Model = class {
             console.log("< 5");
             // TODO
         }
+    };
+
+    async updatePreferredTheme(theme) {
+        const dbRef = firebase.database().ref();
+        await dbRef.child("users").child(this.userAuth.uid).child("preferred_theme").set(theme);
     };
 
     /*

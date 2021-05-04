@@ -15,11 +15,11 @@ export let View = class {
 
         // Wait until auth state is changed, when callback will 
         // remove loading message and populate the board
-        firebase.auth().onAuthStateChanged(user => {
+        firebase.auth().onAuthStateChanged(async (user) => {
             if (user) {
                 console.log("Signed in!")
                 this.model.user = user;
-                this.model.setUpUser(user);
+                await this.model.setUpUser(user);
                 loading.remove();
                 this.initializeView();
             }
@@ -34,18 +34,14 @@ export let View = class {
         let title = document.createElement('h1');
         title.innerHTML = "Jeopardy!";
 
+        // Set up theme toggle and initialize with proper value based on user preference
         let color_switch = document.createElement('button');
         color_switch.classList.add("color_switch");
-        color_switch.innerHTML = "Dark";
-        color_switch.addEventListener("click", (e) => {
-            document.querySelector("body").classList.toggle("dark_theme");
-            if (e.target.innerHTML == "Dark") {
-                e.target.innerHTML = "Light";
-            } else {
-                e.target.innerHTML = "Dark";
-            }
+        this.setColorTheme(color_switch);
+        color_switch.addEventListener("click", async (e) => {
+            await this.colorSwitchClickHandler(e);
         });
-        
+
         let header = document.createElement('div');
         header.id = "header_div";
         header.append(title, color_switch);
@@ -62,6 +58,32 @@ export let View = class {
 
         // Put the Modal there but in secret!
         this.buildModal();
+    };
+
+    setColorTheme(color_switch) {
+        // Set the color theme based on the user's last saved preference
+        if (this.model.userDB.preferred_theme == "LIGHT") {
+            color_switch.innerHTML = "Dark";
+        } else {
+            color_switch.innerHTML = "Light";
+            document.querySelector("body").classList.toggle("dark_theme");
+        }
+    };
+
+    async colorSwitchClickHandler(e) {
+        // Change the color theme
+        document.querySelector("body").classList.toggle("dark_theme");
+
+        // Update the toggle button text
+        let original_theme = e.target.innerHTML;
+        if (original_theme == "Dark") {
+            e.target.innerHTML = "Light";
+        } else {
+            e.target.innerHTML = "Dark";
+        }
+
+        // Save the new color theme as the user's preferred theme in the database
+        await this.model.updatePreferredTheme(original_theme.toUpperCase());
     };
 
     async buildBoard(qvalues) {
