@@ -112,7 +112,10 @@ export let View = class {
 
     async tileClickHandler(row, col) {
         console.log(`clicked on cell ${row}, ${col}`);
-        console.log(this.model.gamestate.clues[col][row]);
+        console.log(this.model.gamestate.clues[col][row - 1]);
+        
+        // Set current clue as coordinates
+        this.model.gamestate.current_clue = [col, row - 1];
 
         // Make Modal visible
         let modal = document.querySelector('.modal');
@@ -145,6 +148,15 @@ export let View = class {
             modal.append(reveal_button);
         }
 
+        // Mark tile as used
+        this.model.gamestate.clues_accessed[col][row - 1] = 1;
+        tile.classList.add("used");
+
+        // Check for win
+        if (this.model.gamestate.clues_accessed.indexOf(0) < 0) {
+            this.model.gamestate.finished = true;
+        }
+        
         // Query Wikipedia for information on the answer
         // If valid information exists, append it to answer description on modal, reveal Wiki button
         let result = await this.model.getExtract(this.model.gamestate.clues[col][row - 1].answer);
@@ -159,9 +171,6 @@ export let View = class {
                 wiki_button_div.style.display = "flex";
             }
         }
-
-        // Mark tile as used
-        tile.classList.add("used");
     };
 
     revealAnswerClickHandler() {
@@ -189,7 +198,7 @@ export let View = class {
         correct_button.classList.add("correct");
         correct_button.innerHTML = "I got the answer correct!";
         correct_button.addEventListener("click", () => {
-            this.updateScore();
+            this.updateScore(1);
             this.removeModal();
         });
 
@@ -197,6 +206,7 @@ export let View = class {
         incorrect_button.classList.add("incorrect");
         incorrect_button.innerHTML = "I got the answer incorrect";
         incorrect_button.addEventListener("click", () => {
+            this.updateScore(-1);
             this.removeModal();
         });
 
@@ -284,6 +294,9 @@ export let View = class {
     };
 
     removeModal() {
+        // Indicate that there is no current clue
+        this.model.gamestate.current_clue = [-1, -1];
+
         // Remove Answer & Correct/Incorrect buttons from view
         document.querySelector("p.answer").style.display = "none";
         document.querySelector(".post_reveal_buttons_div").style.display = "none";
@@ -296,7 +309,8 @@ export let View = class {
         document.querySelector(".modal").style.display = "none";
     };
 
-    updateScore() {
-
+    updateScore(multiplier) {
+        this.model.gamestate.score += multiplier * this.model.qvalues[this.model.gamestate.current_clue[1]];
+        document.querySelector("#score").innerHTML = this.model.gamestate.score;
     };
 };

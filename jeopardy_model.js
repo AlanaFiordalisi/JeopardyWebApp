@@ -4,8 +4,12 @@ export let Model = class {
         this.qvalues_double = [400, 800, 1200, 1600, 2000];
         this.gamestate = {
             categories: [],
-            clues: [], // clues are stored in reverse orientation (rows of clues are columns on board)
+            // clues and clues_accessed are stored in reverse orientation (rows of clues are columns on board)
+            clues: [], 
+            clues_accessed: [],
             score: 0,
+            current_clue: [-1, -1],
+            finished: false,
         }
     }
 
@@ -39,6 +43,7 @@ export let Model = class {
         for (let i = 0; i < result.data.length; i++) {
             let clues = await this.getClues(result.data[i].id);
             this.gamestate.clues.push(clues)
+            this.gamestate.clues_accessed.push(new Array(5).fill(0));
             this.gamestate.categories.push(result.data[i].title);
         }
 
