@@ -21,7 +21,8 @@ export let View = class {
                 this.model.user = user;
                 await this.model.setUpUser(user);
                 loading.remove();
-                this.initializeView();
+                this.setColorTheme();
+                // this.initializeView();
             }
             else {
                 console.log("Signed out.")
@@ -29,26 +30,44 @@ export let View = class {
         });
     };
 
-    async initializeView() {
-        // Initialize theme toggle proper value based on user preference
-        let color_switch = document.querySelector("#color_switch");
-        this.setColorTheme(color_switch);
-        color_switch.addEventListener("click", async (e) => {
-            await this.colorSwitchClickHandler(e);
-        });
+    formSubmitClickHandler() {
+        // Update team information in the model
+        let team_count = parseInt(document.querySelector('input[name="team_count"]:checked').value.slice(0, 1));
+        this.model.team_count = team_count;
+        for (let i = 1; i <= team_count; i++) {
+            let team_name = document.getElementById(`${i}_name`).value;
+            this.model.teams.push(team_name);
+            document.getElementById(`team${i}_name`).innerHTML = team_name;
+            document.getElementById(`team${i}_score`).style.display = "block";
+        }
+
+        // Update the DOM to remove the setup form and show the rules
+        document.getElementById("setup_div").style.display = "none";
+        document.getElementById("rules_div").style.display = "flex";
+        // this.initializeBoardView();
+    };
+
+    async initializeBoardView() {
+        // Remove rules from screen
+        document.getElementById("rules_div").style.display = "none";
 
         // Game Board
         let board = await this.buildBoard(this.model.qvalues);
         document.querySelector("#board_div").append(board);
+        document.querySelector("#board_div").style.display = "flex";
+
+        // Update score div with correct team names and display it
+        document.getElementById("score_div").style.display = "flex";
 
         // Score
-        document.querySelector("#score").innerHTML = this.model.gamestate.score;
+        // document.querySelector("#score").innerHTML = this.model.gamestate.score;
 
         // Put the Modal there but in secret!
         this.buildModal();
     };
 
-    setColorTheme(color_switch) {
+    setColorTheme() {
+        let color_switch = document.querySelector("#color_switch");
         // Set the color theme based on the user's last saved preference
         if (this.model.userDB.preferred_theme == "LIGHT") {
             color_switch.innerHTML = "Dark";
@@ -311,6 +330,6 @@ export let View = class {
 
     updateScore(multiplier) {
         this.model.gamestate.score += multiplier * this.model.qvalues[this.model.gamestate.current_clue[1]];
-        document.querySelector("#score").innerHTML = this.model.gamestate.score;
+        document.querySelector("#team1_score_value").innerHTML = this.model.gamestate.score;
     };
 };

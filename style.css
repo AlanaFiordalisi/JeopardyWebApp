@@ -24,7 +24,7 @@
     --button-correct: #379683;
 }
 
-h1 {
+h1, h2 {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     color: var(--headers);
@@ -41,10 +41,16 @@ body {
 
 #score_div {
     display: flex;
-    justify-content: space-evenly;
+    flex-direction: column;
+    justify-content: center;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     color: var(--headers);
+}
+
+#scores {
+    display: flex;
+    justify-content: space-evenly;
 }
 
 /*
@@ -95,6 +101,62 @@ td.question_tile {
 
 td.question_tile.used {
     background-color: var(--tile-used);
+}
+
+/*
+* Setup form.
+*/
+#setup_div {
+    background-color: var(--tile);
+    border-radius: 15px;
+    width: 30pc;
+    position: relative;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#setup_content {
+    color: var(--text);
+    font-size: large;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+form p {
+    margin: 5px 0px;
+}
+
+form h3 {
+    margin: 0;
+}
+
+/*
+* Rules.
+*/
+#rules_div {
+    background-color: var(--tile);
+    border-radius: 15px;
+    width: 50%;
+    position: relative;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#rules_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+    color: var(--text);
 }
 
 /*

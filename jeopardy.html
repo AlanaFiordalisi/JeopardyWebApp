@@ -27,12 +27,73 @@
             </button>
         </div>
 
-        <div id="board_div">
+        <div id="board_div" style="display: none;">
 
         </div>
 
-        <div id="score_div">
-            <p>Score: <span id="score"></span></p>
+        <div id="setup_div">
+            <div id="setup_content">
+                <br>
+                <form>
+                    <h3>Set Up New Game</h3>
+                    <p>How many teams are playing?</p>
+
+                    <div>
+                        <input type="radio" id="1_team" name="team_count" value="1_team" checked onclick="document.getElementById('2_name').disabled = this.checked; document.getElementById('3_name').disabled = this.checked;">
+                        <label for="1_team">1</label>
+                    </div>
+
+                    <div>
+                        <input type="radio" id="2_team" name="team_count" value="2_team" onclick="document.getElementById('2_name').disabled =! this.checked; document.getElementById('3_name').disabled = this.checked;">
+                        <label for="2_team">2</label>
+                    </div>
+
+                    <div>
+                        <input type="radio" id="3_team" name="team_count" value="3_team" onclick="document.getElementById('2_name').disabled =! this.checked; document.getElementById('3_name').disabled =! this.checked;">
+                        <label for="3_team">3</label>
+                    </div>
+
+                    <p>Enter your team names (3 to 15 characters each):</p>
+
+                    <div>
+                        <label for="1_name">Team 1:</label>
+                        <input type="text" id="1_name" name="team_name" required minlength="4" maxlength="15" size="15">
+                    </div>
+
+                    <div>
+                        <label for="2_name">Team 2:</label>
+                        <input type="text" id="2_name" name="team_name" required disabled minlength="4" maxlength="15" size="15">
+                    </div>
+
+                    <div>
+                        <label for="3_name">Team 3:</label>
+                        <input type="text" id="3_name" name="team_name" disabled minlength="4" maxlength="15" size="15">
+                    </div>
+
+                    <div>
+                        <button type="button" id="game_setup_button">Continue</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="rules_div" style="display: none;">
+            <div id="rules_content">
+                <h2>Rules & Directions:</h2>
+                <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+                <button id="start_game_button">Start Game!</button>
+            </div>
+        </div>
+
+        <div id="score_div" style="display: none;">
+            <!-- <div> -->
+                <h2>Score:</h2>
+            <!-- </div> -->
+            <div id="scores">
+                <p id="team1_score"><span id="team1_name"></span>: <span id="team1_score_value">0</span></p>
+                <p id="team2_score" style="display: none;"><span id="team2_name"></span>: <span id="team2_score_value">0</span></p>
+                <p id="team3_score" style="display: none;"><span id="team3_name"></span>: <span id="team3_score_value">0</span></p>
+            </div>
         </div>
     </body>
 </html>

@@ -11,6 +11,8 @@ export let Model = class {
             current_clue: [-1, -1],
             finished: false,
         }
+        this.team_count = 0;
+        this.teams = [];
     }
 
     async setUpUser(user) {
