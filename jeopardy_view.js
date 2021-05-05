@@ -32,7 +32,7 @@ export let View = class {
     formSubmitClickHandler() {
         // Update team information in the model
         let team_count = parseInt(document.querySelector('input[name="team_count"]:checked').value.slice(0, 1));
-        this.model.team_count = team_count;
+        // this.model.team_count = team_count;
         for (let i = 1; i <= team_count; i++) {
             let team_name = document.getElementById(`${i}_name`).value;
             this.model.teams.push(team_name);
@@ -54,7 +54,9 @@ export let View = class {
         document.querySelector("#board_div").append(board);
         document.querySelector("#board_div").style.display = "flex";
 
-        // Display score div
+        // Display score and direction divs
+        document.getElementById("direction_div").style.display = "flex";
+        document.getElementById("direction").innerHTML = `${this.model.teams[0]}, you go first! Choose a clue from the board.`
         document.getElementById("score_div").style.display = "flex";
 
         // Put the Modal there but in secret!
@@ -166,9 +168,9 @@ export let View = class {
         this.model.gamestate.clues_accessed[col][row - 1] = 1;
         tile.classList.add("used");
 
-        // Check for win
-        if (this.model.gamestate.clues_accessed.indexOf(0) < 0) {
-            this.model.gamestate.finished = true;
+        // Check for game end
+        if (this.model.checkForEndGame()) {
+            // Kick off end game visuals
         }
         
         // Query Wikipedia for information on the answer
@@ -293,7 +295,9 @@ export let View = class {
         let close_button = document.createElement('button');
         close_button.id = "close_button";
         close_button.innerHTML = "Close";
-        close_button.addEventListener("click", this.removeModal);
+        close_button.addEventListener("click", () => {
+            this.removeModal();
+        });
         
         let close_button_div = document.createElement('div');
         close_button_div.id = "close_button_div";
@@ -324,7 +328,22 @@ export let View = class {
     };
 
     updateScore(multiplier) {
-        this.model.gamestate.score += multiplier * this.model.qvalues[this.model.gamestate.current_clue[1]];
-        document.querySelector("#team1_score_value").innerHTML = this.model.gamestate.score;
+        // Update score for previous team
+        let previous_team_index = this.model.gamestate.current_team;
+        this.model.gamestate.scores[previous_team_index] += multiplier * this.model.qvalues[this.model.gamestate.current_clue[1]];
+        document.querySelector(`#team${previous_team_index + 1}_score_value`).innerHTML = this.model.gamestate.scores[previous_team_index];
+
+        // Update current team and change the direction displayed
+        let direction = "";
+        if (multiplier < 0) {   // Got answer incorrect, update current team
+            let previous_team_name = this.model.teams[previous_team_index];
+            this.model.updateCurrentTeam();
+            direction = `${previous_team_name} got the answer incorrect. 
+                            ${this.model.teams[this.model.gamestate.current_team]}, choose the next question.`;
+        } else {                // Got answer correct, keep current team
+            direction = `${this.model.teams[this.model.gamestate.current_team]} got the answer correct! 
+                            They get to choose another question.`;
+        }
+        document.getElementById("direction").innerHTML = direction;
     };
 };

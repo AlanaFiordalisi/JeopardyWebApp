@@ -39,7 +39,7 @@ body {
     justify-content: center;
 }
 
-#score_div {
+div.centered {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -48,7 +48,7 @@ body {
     color: var(--headers);
 }
 
-#scores {
+.centered_content {
     display: flex;
     justify-content: space-evenly;
 }

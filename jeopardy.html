@@ -80,16 +80,32 @@
         <div id="rules_div" style="display: none;">
             <div id="rules_content">
                 <h2>Rules & Directions:</h2>
-                <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+                <p>
+                    <ul>
+                        <li>When a player answers a question correctly, the dollar value corresponding to that question is added to their score.</li>
+                        <li>When a player answers a question incorrectly, the dollar value corresponding to that question is subtracted from their score.</li>
+                        <li>For games with multiple teams:</li>
+                        <ul>
+                            <li>A player may continue picking questions to answer as long as they answer correctly.</li>
+                            <li>When a player answers incorrectly, the next player takes control and gets to pick questions to answer.</li>
+                        </ul>
+                        <li>For guidance, who has control of the board and the directions for what to do next will be displayed below the board.</li>
+                    </ul>
+                </p>
                 <button id="start_game_button">Start Game!</button>
             </div>
         </div>
 
-        <div id="score_div" style="display: none;">
-            <!-- <div> -->
-                <h2>Score:</h2>
-            <!-- </div> -->
-            <div id="scores">
+        <div id="direction_div" class="centered" style="display: none;">
+            <h2>Directions (Next Step):</h2>
+            <div class="centered_content">
+                <p id="direction"></p>
+            </div>
+        </div>
+
+        <div id="score_div" class="centered" style="display: none;">
+            <h2>Score:</h2>
+            <div id="scores" class="centered_content">
                 <p id="team1_score"><span id="team1_name"></span>: <span id="team1_score_value">0</span></p>
                 <p id="team2_score" style="display: none;"><span id="team2_name"></span>: <span id="team2_score_value">0</span></p>
                 <p id="team3_score" style="display: none;"><span id="team3_name"></span>: <span id="team3_score_value">0</span></p>

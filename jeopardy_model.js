@@ -7,11 +7,12 @@ export let Model = class {
             // clues and clues_accessed are stored in reverse orientation (rows of clues are columns on board)
             clues: [], 
             clues_accessed: [],
-            score: 0,
+            scores: [0, 0, 0],
             current_clue: [-1, -1],
             finished: false,
+            current_team: 0,
         }
-        this.team_count = 0;
+        // this.team_count = 0;
         this.teams = [];
     }
 
@@ -69,6 +70,27 @@ export let Model = class {
     async updatePreferredTheme(theme) {
         const dbRef = firebase.database().ref();
         await dbRef.child("users").child(this.userAuth.uid).child("preferred_theme").set(theme);
+    };
+
+    updateCurrentTeam() {
+        if (this.gamestate.current_team < this.teams.length - 1) {
+            console.log("first if")
+            this.gamestate.current_team++;
+        } else {
+            console.log("second if")
+            this.gamestate.current_team = 0;
+        }
+    };
+
+
+    checkForEndGame() {
+        for (let i = 0; i < this.gamestate.clues_accessed.length; i++) {
+            if (this.gamestate.clues_accessed[i].indexOf(0) >= 0) {
+                return false;
+            }
+        }
+        this.gamestate.finished = true;
+        return true;
     };
 
     /*
