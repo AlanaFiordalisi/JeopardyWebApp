@@ -22,7 +22,6 @@ export let View = class {
                 await this.model.setUpUser(user);
                 loading.remove();
                 this.setColorTheme();
-                // this.initializeView();
             }
             else {
                 console.log("Signed out.")
@@ -44,31 +43,27 @@ export let View = class {
         // Update the DOM to remove the setup form and show the rules
         document.getElementById("setup_div").style.display = "none";
         document.getElementById("rules_div").style.display = "flex";
-        // this.initializeBoardView();
     };
 
     async initializeBoardView() {
         // Remove rules from screen
         document.getElementById("rules_div").style.display = "none";
 
-        // Game Board
+        // Generate and display board
         let board = await this.buildBoard(this.model.qvalues);
         document.querySelector("#board_div").append(board);
         document.querySelector("#board_div").style.display = "flex";
 
-        // Update score div with correct team names and display it
+        // Display score div
         document.getElementById("score_div").style.display = "flex";
-
-        // Score
-        // document.querySelector("#score").innerHTML = this.model.gamestate.score;
 
         // Put the Modal there but in secret!
         this.buildModal();
     };
 
     setColorTheme() {
-        let color_switch = document.querySelector("#color_switch");
         // Set the color theme based on the user's last saved preference
+        let color_switch = document.querySelector("#color_switch");
         if (this.model.userDB.preferred_theme == "LIGHT") {
             color_switch.innerHTML = "Dark";
         } else {
