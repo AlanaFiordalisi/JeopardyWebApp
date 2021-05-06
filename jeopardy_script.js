@@ -21,4 +21,23 @@ window.addEventListener("load", async () => {
     document.getElementById("color_switch").addEventListener("click", async (e) => {
         await view.colorSwitchClickHandler(e);
     });
+
+    // // Set up the buttons on the modal, which don't appear yet but exists hidden
+    document.getElementById("close_button").addEventListener("click", () => {
+        view.removeModal();
+    });
+
+    document.getElementById("correct_button").addEventListener("click", () => {
+        view.updateScore(1);
+        view.removeModal();
+    });
+    
+    document.getElementById("incorrect_button").addEventListener("click", () => {
+        view.updateScore(-1);
+        view.removeModal();
+    });
+
+    document.getElementById("wiki_button").addEventListener("click", (e) => {
+        view.wikiClickHandler(e);
+    });
 });

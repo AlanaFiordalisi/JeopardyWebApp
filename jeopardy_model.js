@@ -40,6 +40,17 @@ export let Model = class {
         });
     };
 
+    resetModel() {
+        this.teams = [];
+        this.gamestate.categories = [];
+        this.gamestate.clues = [];
+        this.gamestate.clues_accessed = [];
+        this.gamestate.scores = [0, 0, 0];
+        this.gamestate.current_clue = [-1, -1];
+        this.gamestate.finished = false;
+        this.gamestate.current_team = 0;
+    };
+
     async setUpBoard(offset) {
         let result = await this.categories(offset);
 
@@ -90,6 +101,7 @@ export let Model = class {
             }
         }
         this.gamestate.finished = true;
+        this.gamestate.winner = this.gamestate.scores.indexOf(Math.max(...this.gamestate.scores));
         return true;
     };
 

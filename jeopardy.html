@@ -28,7 +28,30 @@
         </div>
 
         <div id="board_div" style="display: none;">
+            <table id="game_board">
 
+            </table>
+            <div class="modal">
+                <div class="modal_content">
+                    <p class="category large">Category: <span class="category"></span></p>
+                    <p class="question large"></p>
+                    <hr>
+                    <p class="answer large">Answer: <span class="answer"></span></p>
+                    <div class="answer_description"></div>
+                    <div id="close_button_div">
+                        <button id="close_button">Close</button>
+                    </div>
+                    <div class="post_reveal_buttons_div">
+                        <div class="answer_buttons buttons">
+                            <button id="correct_button" class="correct">I got the answer correct!</button>
+                            <button id="incorrect_button" class="incorrect">I got the answer incorrect</button>
+                        </div>
+                    </div>
+                    <div class="wiki_button buttons">
+                        <button id="wiki_button" value="REVEAL">Tell me about this answer!</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="setup_div">
@@ -109,6 +132,16 @@
                 <p id="team1_score"><span id="team1_name"></span>: <span id="team1_score_value">0</span></p>
                 <p id="team2_score" style="display: none;"><span id="team2_name"></span>: <span id="team2_score_value">0</span></p>
                 <p id="team3_score" style="display: none;"><span id="team3_name"></span>: <span id="team3_score_value">0</span></p>
+            </div>
+        </div>
+
+        <div id="game_end_div" class="centered" style="display: none;">
+            <div id="game_end_content" class="centered_content">
+                <h2><span id="winner"></span> is the winner!</h2>
+                <p>Congratulations on finishing an invigorating round of Jeopardy! Here are the final scores:</p> 
+                <ul id="score_list">    
+                </ul>
+                <button id="new_game_button">Start New Game</button>
             </div>
         </div>
     </body>

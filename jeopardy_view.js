@@ -30,6 +30,9 @@ export let View = class {
     };
 
     formSubmitClickHandler() {
+        // Reset model information to start a new game from scratch
+        this.model.resetModel();
+
         // Update team information in the model
         let team_count = parseInt(document.querySelector('input[name="team_count"]:checked').value.slice(0, 1));
         // this.model.team_count = team_count;
@@ -53,14 +56,12 @@ export let View = class {
         let board = await this.buildBoard(this.model.qvalues);
         document.querySelector("#board_div").append(board);
         document.querySelector("#board_div").style.display = "flex";
+        document.querySelector(".modal").style.display = "none";
 
         // Display score and direction divs
         document.getElementById("direction_div").style.display = "flex";
         document.getElementById("direction").innerHTML = `${this.model.teams[0]}, you go first! Choose a clue from the board.`
         document.getElementById("score_div").style.display = "flex";
-
-        // Put the Modal there but in secret!
-        this.buildModal();
     };
 
     setColorTheme() {
@@ -95,9 +96,9 @@ export let View = class {
         let offset = this.model.rng(0, 18300);
         await this.model.setUpBoard(offset);
 
-        // Build board
-        let board = document.createElement('table');
-        board.id = "game_board";
+        // Get reference board and clear out any existing board
+        let board = document.getElementById("game_board");
+        board.innerHTML = "";
 
         for (let row = 0; row < 6; row++) {
             let trow = document.createElement('tr');
@@ -157,6 +158,7 @@ export let View = class {
         } else { // Create and append new, unique Reveal button
             let reveal_button = document.createElement('button');
             reveal_button.classList.add("reveal");
+            reveal_button.id = "reveal_button";
             reveal_button.innerHTML = "Reveal Answer";
             reveal_button.addEventListener("click", () => {
                 this.revealAnswerClickHandler();
@@ -168,11 +170,6 @@ export let View = class {
         this.model.gamestate.clues_accessed[col][row - 1] = 1;
         tile.classList.add("used");
 
-        // Check for game end
-        if (this.model.checkForEndGame()) {
-            // Kick off end game visuals
-        }
-        
         // Query Wikipedia for information on the answer
         // If valid information exists, append it to answer description on modal, reveal Wiki button
         let result = await this.model.getExtract(this.model.gamestate.clues[col][row - 1].answer);
@@ -208,48 +205,6 @@ export let View = class {
         this.resetWikiButton(wiki_button);
     };
 
-    buildPostRevealButtons() {
-        // Create the Correct/Incorrect buttons and append them to their own div
-        let correct_button = document.createElement('button');
-        correct_button.classList.add("correct");
-        correct_button.innerHTML = "I got the answer correct!";
-        correct_button.addEventListener("click", () => {
-            this.updateScore(1);
-            this.removeModal();
-        });
-
-        let incorrect_button = document.createElement('button');
-        incorrect_button.classList.add("incorrect");
-        incorrect_button.innerHTML = "I got the answer incorrect";
-        incorrect_button.addEventListener("click", () => {
-            this.updateScore(-1);
-            this.removeModal();
-        });
-
-        let answer_buttons_div = document.createElement('div');
-        answer_buttons_div.classList.add('answer_buttons', 'buttons');
-        answer_buttons_div.append(correct_button, incorrect_button);
-
-        // Create the Reveal A Short Description button and append it to its own div
-        let wiki_button = document.createElement('button');
-        wiki_button.id = "wiki_button";
-        this.resetWikiButton(wiki_button);
-        wiki_button.addEventListener("click", (e) => {
-            this.wikiClickHandler(e);
-        });
-
-        let wiki_button_div = document.createElement('div');
-        wiki_button_div.classList.add('wiki_button', 'buttons');
-        wiki_button_div.append(wiki_button);
-
-        // Append the two sub-divs to the buttons div, which is returned
-        let buttons_div = document.createElement('div');
-        buttons_div.classList.add('post_reveal_buttons_div');
-        buttons_div.append(answer_buttons_div, wiki_button_div);
-
-        return buttons_div;
-    };
-
     resetWikiButton(button) {
         button.innerHTML = "Tell me about this answer!";
         button.value = "REVEAL";
@@ -266,49 +221,6 @@ export let View = class {
             e.target.innerHTML = "Tell me about this answer!";
             answer_description.style.display = "none";
         }
-    };
-
-    buildModal() {
-        // Create Modal wrapper
-        let modal = document.createElement('div');
-        modal.classList.add("modal");
-
-        // Create div and all modal content elements
-        let modal_content = document.createElement('div');
-        modal_content.classList.add("modal_content");
-
-        let category = document.createElement('p');
-        category.classList.add("category", "large");
-        category.innerHTML = `Category: <span class="category"></span>`;
-
-        let question = document.createElement('p');
-        question.classList.add("question", "large");
-
-        let hr = document.createElement('hr');
-        let answer = document.createElement('p');
-        answer.classList.add("answer", "large");
-        answer.innerHTML = `Answer: <span class="answer"></span>`;
-
-        let answer_description = document.createElement('div');
-        answer_description.classList.add("answer_description");
-
-        let close_button = document.createElement('button');
-        close_button.id = "close_button";
-        close_button.innerHTML = "Close";
-        close_button.addEventListener("click", () => {
-            this.removeModal();
-        });
-        
-        let close_button_div = document.createElement('div');
-        close_button_div.id = "close_button_div";
-        close_button_div.append(close_button);
-
-        // Append
-        modal_content.append(category, question, hr, answer, answer_description, close_button_div);
-        let buttons_div = this.buildPostRevealButtons(); // Must append answer description before building/appending buttons
-        modal_content.append(buttons_div);
-        modal.append(modal_content);
-        board_div.append(modal);
     };
 
     removeModal() {
@@ -345,5 +257,37 @@ export let View = class {
                             They get to choose another question.`;
         }
         document.getElementById("direction").innerHTML = direction;
+
+        // If the game has ended, go to the end screen
+        if (this.model.checkForEndGame()) {
+            this.initializeEndGame();
+        }
+    };
+
+    initializeEndGame() {
+        // Hide the game elements from the screen
+        document.getElementById("board_div").style.display = "none";
+        document.getElementById("direction_div").style.display = "none";
+        document.getElementById("score_div").style.display = "none";
+
+        // Update the winner and scores on the end game div
+        document.getElementById("winner").innerHTML = this.model.teams[this.model.gamestate.winner];
+
+        let score_list = document.getElementById("score_list");
+        score_list.innerHTML = "";
+        for (let i = 0; i < this.model.teams.length; i++) {
+            let item = document.createElement('li');
+            item.innerHTML = `${this.model.teams[i]} with a score of ${this.model.gamestate.scores[i]}`
+            score_list.append(item);
+        }
+
+        // Set up the new game button
+        document.getElementById("new_game_button").addEventListener("click", () => {
+            document.getElementById("game_end_div").style.display = "none";
+            document.getElementById("setup_div").style.display = "flex";
+        });
+
+        // Display the end game div
+        document.getElementById("game_end_div").style.display = "flex";
     };
 };
