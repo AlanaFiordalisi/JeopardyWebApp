@@ -180,8 +180,6 @@ export let View = class {
             if (!extract.includes("NewPP limit report")) {      // 'extract' actually contains useful info
                 let answer_description = document.querySelector(".answer_description");
                 answer_description.innerHTML = extract;
-                let wiki_button_div  = document.querySelector(".wiki_button");
-                wiki_button_div.style.display = "flex";
             }
         }
     };
@@ -203,6 +201,9 @@ export let View = class {
         // Ensure Wiki button has proper information set for it
         let wiki_button = document.querySelector("#wiki_button");
         this.resetWikiButton(wiki_button);
+        if (document.querySelector(".answer_description").innerHTML != "") {
+            document.querySelector(".wiki_button").style.display = "flex";
+        }
     };
 
     resetWikiButton(button) {
