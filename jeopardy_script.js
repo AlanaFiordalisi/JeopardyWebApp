@@ -18,6 +18,11 @@ window.addEventListener("load", async () => {
         view.initializeBoardView();
     });
 
+    document.getElementById("log_out").addEventListener("click", async () => {
+        firebase.auth().signOut();
+        window.location.replace("./index.html")
+    });
+
     document.getElementById("color_switch").addEventListener("click", async (e) => {
         await view.colorSwitchClickHandler(e);
     });
