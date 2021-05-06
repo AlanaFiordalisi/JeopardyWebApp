@@ -61,6 +61,10 @@ export let View = class {
         // Display score and direction divs
         document.getElementById("direction_div").style.display = "flex";
         document.getElementById("direction").innerHTML = `${this.model.teams[0]}, you go first! Choose a clue from the board.`
+
+        for (let i = 0; i < this.model.teams.length; i++) {
+            document.getElementById(`team${i + 1}_score_value`).innerHTML = "0";
+        };
         document.getElementById("score_div").style.display = "flex";
     };
 
