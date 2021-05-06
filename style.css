@@ -124,15 +124,15 @@ td.question_tile.used {
     padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
+}
+
+form {
+    margin-bottom: 20px;
 }
 
 form p {
     margin: 5px 0px;
-}
-
-form h3 {
-    margin: 0;
 }
 
 /*
