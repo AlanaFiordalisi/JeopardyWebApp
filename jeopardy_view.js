@@ -54,9 +54,9 @@ export let View = class {
 
         // Generate and display board
         let board = await this.buildBoard(this.model.qvalues);
-        document.querySelector("#board_div").append(board);
-        document.querySelector("#board_div").style.display = "flex";
-        document.querySelector(".modal").style.display = "none";
+        document.getElementById("board_div").append(board);
+        document.getElementById("board_div").style.display = "flex";
+        document.getElementById("modal").style.display = "none";
 
         // Display score and direction divs
         document.getElementById("direction_div").style.display = "flex";
@@ -66,7 +66,7 @@ export let View = class {
 
     setColorTheme() {
         // Set the color theme based on the user's last saved preference
-        let color_switch = document.querySelector("#color_switch");
+        let color_switch = document.getElementById("color_switch");
         if (this.model.userDB.preferred_theme == "LIGHT") {
             color_switch.innerHTML = "Dark";
         } else {
@@ -135,30 +135,31 @@ export let View = class {
         this.model.gamestate.current_clue = [col, row - 1];
 
         // Make Modal visible
-        let modal = document.querySelector('.modal');
+        let modal = document.getElementById('modal');
         modal.style.display = "flex";
 
         // Update Category
-        let cat = document.querySelector("span.category");
+        let cat = document.getElementById("category");
         cat.innerHTML = this.model.gamestate.categories[col];
 
         // Update Question
-        let question = document.querySelector("p.question");
+        let question = document.getElementById("question");
         question.innerHTML = this.model.gamestate.clues[col][row - 1].question;
 
         // Update Answer, but though it is hidden at first
-        let answer = document.querySelector("span.answer");
+        let answer = document.getElementById("answer");
         answer.innerHTML = this.model.gamestate.clues[col][row - 1].answer;
 
-        let tile = document.querySelector(`#tile${row}_${col}`);
+        let tile = document.getElementById(`tile${row}_${col}`);
         if (tile.classList.contains("used")) {
             answer.parentNode.style.display = "block";
-            let close_button = document.querySelector("#close_button_div");
+            let close_button = document.getElementById("close_button_div");
             close_button.style.display = "flex";
         } else { // Create and append new, unique Reveal button
             let reveal_button = document.createElement('button');
-            reveal_button.classList.add("reveal");
             reveal_button.id = "reveal_button";
+            // reveal_button.classList.add("reveal");
+            // reveal_button.id = "reveal_button";
             reveal_button.innerHTML = "Reveal Answer";
             reveal_button.addEventListener("click", () => {
                 this.revealAnswerClickHandler();
@@ -178,7 +179,7 @@ export let View = class {
         if (!page["-1"]) {                                      // 'extract' property exists
             let extract = page[Object.keys(page)[0]].extract;
             if (!extract.includes("NewPP limit report")) {      // 'extract' actually contains useful info
-                let answer_description = document.querySelector(".answer_description");
+                let answer_description = document.getElementById("answer_description");
                 answer_description.innerHTML = extract;
             }
         }
@@ -186,23 +187,23 @@ export let View = class {
 
     revealAnswerClickHandler() {
         // Put answer text in view
-        let answer = document.querySelector("p.answer");
+        let answer = document.getElementById("answer_p");
         answer.style.display = "block";
 
         // Remove Reveal button 
-        let reveal_button = document.querySelector("button.reveal");
+        let reveal_button = document.getElementById("reveal_button");
         reveal_button.remove();
         
         // Put buttons div in view
         // (will only include Correct/Incorrect initially) 
-        let buttons_div = document.querySelector(".post_reveal_buttons_div");
+        let buttons_div = document.getElementById("post_reveal_buttons_div");
         buttons_div.style.display = "block";
 
         // Ensure Wiki button has proper information set for it
-        let wiki_button = document.querySelector("#wiki_button");
+        let wiki_button = document.getElementById("wiki_button");
         this.resetWikiButton(wiki_button);
-        if (document.querySelector(".answer_description").innerHTML != "") {
-            document.querySelector(".wiki_button").style.display = "flex";
+        if (document.getElementById("answer_description").innerHTML != "") {
+            document.getElementById("wiki_button_div").style.display = "flex";
         }
     };
 
@@ -212,7 +213,7 @@ export let View = class {
     };
 
     wikiClickHandler(e) {
-        let answer_description = document.querySelector(".answer_description");
+        let answer_description = document.getElementById("answer_description");
         if (e.target.value == "REVEAL") {
             e.target.value = "HIDE";
             e.target.innerHTML = "Hide description";
@@ -229,22 +230,22 @@ export let View = class {
         this.model.gamestate.current_clue = [-1, -1];
 
         // Remove Answer & Correct/Incorrect buttons from view
-        document.querySelector("p.answer").style.display = "none";
-        document.querySelector(".post_reveal_buttons_div").style.display = "none";
-        document.querySelector(".answer_description").style.display = "none";
-        document.querySelector(".answer_description").innerHTML = "";
-        document.querySelector(".wiki_button").style.display = "none";
-        document.querySelector("#close_button_div").style.display = "none";
+        document.getElementById("answer_p").style.display = "none";
+        document.getElementById("post_reveal_buttons_div").style.display = "none";
+        document.getElementById("answer_description").style.display = "none";
+        document.getElementById("answer_description").innerHTML = "";
+        document.getElementById("wiki_button_div").style.display = "none";
+        document.getElementById("close_button_div").style.display = "none";
 
         // Remove Modal from view
-        document.querySelector(".modal").style.display = "none";
+        document.getElementById("modal").style.display = "none";
     };
 
     updateScore(multiplier) {
         // Update score for previous team
         let previous_team_index = this.model.gamestate.current_team;
         this.model.gamestate.scores[previous_team_index] += multiplier * this.model.qvalues[this.model.gamestate.current_clue[1]];
-        document.querySelector(`#team${previous_team_index + 1}_score_value`).innerHTML = this.model.gamestate.scores[previous_team_index];
+        document.getElementById(`team${previous_team_index + 1}_score_value`).innerHTML = this.model.gamestate.scores[previous_team_index];
 
         // Update current team and change the direction displayed
         let direction = "";
