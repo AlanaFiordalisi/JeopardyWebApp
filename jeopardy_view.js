@@ -35,12 +35,16 @@ export let View = class {
 
         // Update team information in the model
         let team_count = parseInt(document.querySelector('input[name="team_count"]:checked').value.slice(0, 1));
-        // this.model.team_count = team_count;
         for (let i = 1; i <= team_count; i++) {
             let team_name = document.getElementById(`${i}_name`).value;
             this.model.teams.push(team_name);
             document.getElementById(`team${i}_name`).innerHTML = team_name;
             document.getElementById(`team${i}_score`).style.display = "block";
+        }
+
+        // Ensure the right team scores are hidden
+        for (let i = team_count; i < 3; i++) {
+            document.getElementById(`team${i}_score`).style.display = "none"; 
         }
 
         // Update the DOM to remove the setup form and show the rules
@@ -62,7 +66,7 @@ export let View = class {
         document.getElementById("direction_div").style.display = "flex";
         document.getElementById("direction").innerHTML = `${this.model.teams[0]}, you go first! Choose a clue from the board.`
 
-        for (let i = 0; i < this.model.teams.length; i++) {
+        for (let i = 0; i < 3; i++) {
             document.getElementById(`team${i + 1}_score_value`).innerHTML = "0";
         };
         document.getElementById("score_div").style.display = "flex";
