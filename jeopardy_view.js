@@ -33,24 +33,39 @@ export let View = class {
         // Reset model information to start a new game from scratch
         this.model.resetModel();
 
-        // Update team information in the model
+        // Update team information in the model & view
+        let scores_div = document.getElementById("scores");
+        scores_div.innerHTML = "";
         let team_count = parseInt(document.querySelector('input[name="team_count"]:checked').value.slice(0, 1));
         for (let i = 1; i <= team_count; i++) {
             let team_name = document.getElementById(`${i}_name`).value;
+            // Append team's name to model
             this.model.teams.push(team_name);
-            document.getElementById(`team${i}_name`).innerHTML = team_name;
-            document.getElementById(`team${i}_score`).style.display = "block";
-        }
-
-        // Ensure the right team scores are hidden
-        for (let i = team_count; i < 3; i++) {
-            document.getElementById(`team${i}_score`).style.display = "none"; 
+            // Append team's score to DOM 
+            scores_div.append(this.buildTeamScore(i, team_name));
         }
 
         // Update the DOM to remove the setup form and show the rules
         document.getElementById("setup_div").style.display = "none";
         document.getElementById("rules_div").style.display = "flex";
     };
+
+    buildTeamScore(team_number, team_name) {
+        let p = document.createElement('p');
+        p.id = `team${team_number}_score`;
+
+        let name_span = document.createElement('span');
+        name_span.id = `team${team_number}_name`;
+        name_span.innerHTML = team_name;
+
+        let score_span = document.createElement('span');
+        score_span.id = `team${team_number}_score_value`;
+        score_span.innerHTML = "0";
+
+        p.append(name_span, ": ", score_span);
+
+        return p;
+    }
 
     async initializeBoardView() {
         // Remove rules from screen
@@ -65,10 +80,6 @@ export let View = class {
         // Display score and direction divs
         document.getElementById("direction_div").style.display = "flex";
         document.getElementById("direction").innerHTML = `${this.model.teams[0]}, you go first! Choose a clue from the board.`
-
-        for (let i = 0; i < 3; i++) {
-            document.getElementById(`team${i + 1}_score_value`).innerHTML = "0";
-        };
         document.getElementById("score_div").style.display = "flex";
     };
 
